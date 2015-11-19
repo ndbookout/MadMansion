@@ -101,7 +101,6 @@ public class Character_Controller : MonoBehaviour {
         {
             targetRotation *= Quaternion.AngleAxis(moveSetting.rotateVelocity * turnInput * Time.deltaTime, Vector3.up);
         }
-        else
             transform.rotation = targetRotation;
     }
 
