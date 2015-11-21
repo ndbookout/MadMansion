@@ -10,6 +10,7 @@ public class Character_Controller : MonoBehaviour {
         public float rotateVelocity = 100; //This is the rotation velocity of the character
         public float jumpVelocity = 25; //This is the jump velocity of the character in the upward direction
         public float distanceToGrounded = 0.1f; //This is the total distance the character is to the ground this will be a raycast that will return a distance this will be a bool check
+        public Transform[] groundCheckPoints;
         public LayerMask ground; //This will check the the layer and what specific object he can jump from
     }
 
@@ -36,6 +37,7 @@ public class Character_Controller : MonoBehaviour {
 
     //Variable Settings Private
     Vector3 ghostVelocity = Vector3.zero;
+    Vector3 terrainNormal = Vector3.zero;
     private Quaternion targetRotation; //Holds rotation to turn too
     private Rigidbody ghostBody; //This will hold the ghost postion from the rigidbody
     private float fowardInput; 
@@ -60,13 +62,14 @@ public class Character_Controller : MonoBehaviour {
     void Update()
     {
         GetInput();
-        Turn();
+        
     }
 
     void FixedUpdate()
     {
         Run();
         Jump();
+        Turn();
 
         ghostBody.velocity = transform.TransformDirection(ghostVelocity);
         //ghostBody.velocity = ghostVelocity;

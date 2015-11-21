@@ -10,12 +10,14 @@ public class Character_Camera_Controller : MonoBehaviour {
         public float lookSmooth = 100f;//This will allow the camera to rotate smoothly around the character when rotating
         public float distanceFromTarget = -8;//this will modify the distance from target when zooming in
         public float zoomSmooth = 100;//This is how fast we will zoom in, to the target
+        public float zoomStep = 2;
         public float maxZoom = -2;//These are a zoom treash holds so how close and how far we can get from the target
         public float minZoom = -15;
         public bool smoothFollow = true;
         public float smooth = 0.05f;
-
-        public float adjustmentDistance = -0.04549421f;
+        public float adjustmentDistance = -8;
+        public float newDistance = -8; //going to use the zoom input to set this
+        
 
     }
 
@@ -79,11 +81,17 @@ public class Character_Camera_Controller : MonoBehaviour {
         horizontalOrbitSnapInput = 0;
 
         SetCameraTarget(target);
-        MoveToGhost();
 
-        collision.Initialize(Camera.main);
-        collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
-        collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
+        if (target)
+        {
+
+            MoveToGhost();
+
+            
+            collision.Initialize(Camera.main);
+            collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
+            collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
+        }
     }
 
     void Update()
@@ -91,6 +99,7 @@ public class Character_Camera_Controller : MonoBehaviour {
         GetInput();
         OrbitTarget();
         ZoomInOnTarget();
+        DrawDebugLines();
     }
 
     void FixedUpdate()
@@ -103,19 +112,6 @@ public class Character_Camera_Controller : MonoBehaviour {
 
         collision.UpdateCameraClipPoints(transform.position, transform.rotation, ref collision.adjustedCameraClipPoints);
         collision.UpdateCameraClipPoints(destination, transform.rotation, ref collision.desiredCameraClipPoints);
-
-        //drawing debug lines here
-        for (int i = 0; i < 5; i++)
-        {
-            if (debug.drawDesiredCollisionLines)
-            {
-                Debug.DrawLine(targetPosition, collision.desiredCameraClipPoints[i], Color.white);
-            }
-            if (debug.drawAdjustedCollisionLines)
-            {
-                Debug.DrawLine(targetPosition, collision.adjustedCameraClipPoints[i], Color.red);
-            }
-        }
 
         collision.CheckColliding(targetPosition); //using raycast
         cameraPosition.adjustmentDistance = collision.GetAdjustedDistanceWithRayFrom(targetPosition);
@@ -172,7 +168,7 @@ public class Character_Camera_Controller : MonoBehaviour {
     void LookAtGhost()
     {
         Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, cameraPosition.lookSmooth * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 100 * Time.deltaTime);
     }
     void GetInput()
     {
@@ -202,18 +198,23 @@ public class Character_Camera_Controller : MonoBehaviour {
     }
     void ZoomInOnTarget()
     {
-        cameraPosition.distanceFromTarget += zoomInput * cameraPosition.zoomSmooth * Time.deltaTime;
+        cameraPosition.newDistance = cameraPosition.zoomStep * zoomInput;
+
+        cameraPosition.distanceFromTarget = Mathf.Lerp(cameraPosition.distanceFromTarget, cameraPosition.newDistance, cameraPosition.zoomSmooth * Time.deltaTime);
 
         if(cameraPosition.distanceFromTarget > cameraPosition.maxZoom)
         {
             cameraPosition.distanceFromTarget = cameraPosition.maxZoom;
+            cameraPosition.newDistance = cameraPosition.maxZoom;
         }
         if(cameraPosition.distanceFromTarget < cameraPosition.minZoom)
         {
             cameraPosition.distanceFromTarget = cameraPosition.minZoom;
+            cameraPosition.newDistance = cameraPosition.minZoom;
         }
     }
 
+    //class for camera collisions againts walls
     [System.Serializable]
     public class CollisionHandler
     {
@@ -311,6 +312,20 @@ public class Character_Camera_Controller : MonoBehaviour {
             }
         }
 
+    }
+    void DrawDebugLines()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (debug.drawDesiredCollisionLines)
+            {
+                Debug.DrawLine(targetPosition, collision.desiredCameraClipPoints[i], Color.white);
+            }
+            if (debug.drawAdjustedCollisionLines)
+            {
+                Debug.DrawLine(targetPosition, collision.adjustedCameraClipPoints[i], Color.red);
+            }
+        }
     }
 
 }
