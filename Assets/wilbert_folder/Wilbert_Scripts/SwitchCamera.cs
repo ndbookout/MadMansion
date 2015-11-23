@@ -8,6 +8,8 @@ public class SwitchCamera : MonoBehaviour {
     public int cameraIndex;
     public string CAMERA_AXIS = "SwitcCamera";
     public float cameraInput;
+    public LayerMask CameraSwitchBoard;
+    public float distanceToPanel = 0.5f;
 
     // Use this for initialization
     void Start ()
@@ -29,6 +31,11 @@ public class SwitchCamera : MonoBehaviour {
         masterCamera.transform.position = cameras[cameraIndex].transform.position;
         masterCamera.transform.rotation = cameras[cameraIndex].transform.rotation;
 	}
+
+    public bool switchPanel()
+    {   //This will create an ray that will check the vector down, distance to groun will check the distance, ground will allows to jump
+        return Physics.Raycast(transform.position, Vector3.forward, distanceToPanel, CameraSwitchBoard);
+    }
 
     void GetInput()
     {
