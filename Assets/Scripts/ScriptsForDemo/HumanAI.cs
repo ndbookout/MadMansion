@@ -41,11 +41,11 @@ public class HumanAI : MonoBehaviour
             }
         }
 
-        //if (state == PossibleStates.scared)
-        //      {
-        //         target = entrance;
-        //    StartCoroutine(RunScared());
-        //      }
+        if (state == PossibleStates.scared)
+        {
+            target = entrance;
+            StartCoroutine(RunScared());
+        }
 
         else if ((transform.position - target.transform.position).magnitude < 1 && state != PossibleStates.idle)
         {
@@ -122,11 +122,13 @@ public class HumanAI : MonoBehaviour
         //}
     }
 
-    //IEnumerator RunScared()
-    //{
-    //    yield return new WaitForSeconds(5f);
-    //    target = Targets[Random.Range(0, Targets.Count)];
-    //    state = PossibleStates.idle;
-    //}
+    IEnumerator RunScared()
+    {
+        agent.speed = 10;
+        yield return new WaitForSeconds(5f);
+        agent.speed = 3.5f;
+        target = TargetController.Targets[Random.Range(0, TargetController.Targets.Count)];
+        state = PossibleStates.idle;
+    }
 }
 
