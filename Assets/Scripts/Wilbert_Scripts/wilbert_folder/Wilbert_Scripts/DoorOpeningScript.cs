@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DoorOpeningScript : MonoBehaviour {
-
+public class DoorOpeningScript : MonoBehaviour
+{
     public float doorInteractDistance = 5f;
 	
 	// Update is called once per frame
@@ -14,9 +14,9 @@ public class DoorOpeningScript : MonoBehaviour {
             RaycastHit doorHit;
             if(Physics.Raycast(doorRay,out doorHit, doorInteractDistance))
             {
-                if (doorHit.collider.CompareTag("doors"))
+                if (doorHit.collider.CompareTag("Door"))
                 {
-                    doorHit.collider.transform.parent.GetComponent<DoorOpenScript>().ChangeDoorState();
+                    doorHit.collider.transform.parent.GetComponent<DoorController>().ChangeDoorState();
                 }
             }
         }
