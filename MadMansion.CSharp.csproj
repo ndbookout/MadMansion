@@ -104,6 +104,10 @@
     <None Include="Assets\3DAssets\NateAssets\Grand Halloween\Shader\Normal-BumpSpec-TwoSided.shader" />
     <None Include="Assets\3DAssets\NateAssets\HauntedMansion\animated_male\man_994_notes.txt" />
     <None Include="Assets\3DAssets\NateAssets\HauntedMansion\animated_male\man_motiondata.xml" />
+    <None Include="Assets\3DAssets\animated_male\man_994_notes.txt" />
+    <None Include="Assets\3DAssets\animated_male\man_motiondata.xml" />
+    <None Include="Assets\3DAssets\animated_woman\woman_1046_notes.txt" />
+    <None Include="Assets\3DAssets\animated_woman\woman_motiondata.xml" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
   </ItemGroup>
