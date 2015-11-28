@@ -13,7 +13,7 @@ public class HumanAI : MonoBehaviour
     NavMeshAgent agent;
     int doorLayer = 1 << 12;
 
-    public enum PossibleStates { idle, hasTarget, scared, inRoom };
+    public enum PossibleStates { idle, hasTarget, scared, running };
     public PossibleStates state = new PossibleStates();
     public float maxDistance;
     public GameObject entrance;
@@ -41,11 +41,11 @@ public class HumanAI : MonoBehaviour
             }
         }
 
-        //if (state == PossibleStates.scared)
-        //      {
-        //         target = entrance;
-        //    StartCoroutine(RunScared());
-        //      }
+        if (state == PossibleStates.scared)
+        {
+            //target = entrance;
+            StartCoroutine(RunScared());
+        }
 
         else if ((transform.position - target.transform.position).magnitude < 1 && state != PossibleStates.idle)
         {
@@ -54,16 +54,6 @@ public class HumanAI : MonoBehaviour
         else if (state == PossibleStates.hasTarget && (transform.position - target.transform.position).magnitude > 1)
         {
             agent.SetDestination(target.transform.position);
-        }
-        else if (state == PossibleStates.inRoom)
-        {
-            //agent.Resume();
-            if ((transform.position - enclosedTarget.position).magnitude > 1)
-            {
-                agent.SetDestination(enclosedTarget.position);
-            }
-            else
-                StartCoroutine(DoActions());
         }
     }
 
@@ -92,11 +82,17 @@ public class HumanAI : MonoBehaviour
             }
         }
     }
-   
+
+    void OnTriggerEnter(Collider collide)
+    {
+        if (collide.name == "Player")
+            state = PossibleStates.scared;
+    }
+
     IEnumerator DoActions()
-    {  
-        yield return new WaitForSeconds(3f);
+    {
         state = PossibleStates.idle;
+        yield return new WaitForSeconds(3f);   
         prevTarget = target;
         target = null;
     }
@@ -122,11 +118,11 @@ public class HumanAI : MonoBehaviour
         //}
     }
 
-    //IEnumerator RunScared()
-    //{
-    //    yield return new WaitForSeconds(5f);
-    //    target = Targets[Random.Range(0, Targets.Count)];
-    //    state = PossibleStates.idle;
-    //}
+    IEnumerator RunScared()
+    {
+        state = PossibleStates.running;
+        yield return new WaitForSeconds(3f);      
+        state = PossibleStates.idle;
+    }
 }
 
