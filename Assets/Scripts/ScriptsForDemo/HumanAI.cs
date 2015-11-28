@@ -13,7 +13,7 @@ public class HumanAI : MonoBehaviour
     NavMeshAgent agent;
     int doorLayer = 1 << 12;
 
-    public enum PossibleStates { idle, hasTarget, scared, running };
+    public enum PossibleStates { idle, hasTarget, scared, inRoom };
     public PossibleStates state = new PossibleStates();
     public float maxDistance;
     public GameObject entrance;
@@ -43,7 +43,7 @@ public class HumanAI : MonoBehaviour
 
         if (state == PossibleStates.scared)
         {
-            //target = entrance;
+            target = entrance;
             StartCoroutine(RunScared());
         }
 
@@ -54,6 +54,16 @@ public class HumanAI : MonoBehaviour
         else if (state == PossibleStates.hasTarget && (transform.position - target.transform.position).magnitude > 1)
         {
             agent.SetDestination(target.transform.position);
+        }
+        else if (state == PossibleStates.inRoom)
+        {
+            //agent.Resume();
+            if ((transform.position - enclosedTarget.position).magnitude > 1)
+            {
+                agent.SetDestination(enclosedTarget.position);
+            }
+            else
+                StartCoroutine(DoActions());
         }
     }
 
@@ -82,17 +92,11 @@ public class HumanAI : MonoBehaviour
             }
         }
     }
-
-    void OnTriggerEnter(Collider collide)
-    {
-        if (collide.name == "Player")
-            state = PossibleStates.scared;
-    }
-
+   
     IEnumerator DoActions()
-    {
+    {  
+        yield return new WaitForSeconds(3f);
         state = PossibleStates.idle;
-        yield return new WaitForSeconds(3f);   
         prevTarget = target;
         target = null;
     }
@@ -120,8 +124,10 @@ public class HumanAI : MonoBehaviour
 
     IEnumerator RunScared()
     {
-        state = PossibleStates.running;
-        yield return new WaitForSeconds(3f);      
+        agent.speed = 10;
+        yield return new WaitForSeconds(5f);
+        agent.speed = 3.5f;
+        target = TargetController.Targets[Random.Range(0, TargetController.Targets.Count)];
         state = PossibleStates.idle;
     }
 }
