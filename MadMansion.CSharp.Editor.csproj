@@ -105,21 +105,6 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\UnityAssemblies\Mono.Cecil.dll</HintPath>
     </Reference>
@@ -139,6 +124,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
+    <Compile Include="Assets\iTweenEditor\Editor\iTweenEventDataEditor.cs" />
+    <Compile Include="Assets\iTweenEditor\Editor\iTweenPathEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\3DAssets\Ghost\Read me.txt" />
@@ -150,8 +137,13 @@
     <None Include="Assets\3DAssets\animated_male\man_motiondata.xml" />
     <None Include="Assets\3DAssets\animated_woman\woman_1046_notes.txt" />
     <None Include="Assets\3DAssets\animated_woman\woman_motiondata.xml" />
+    <None Include="Assets\Materials\Textures\Skybox\devilpunch\blood_sport\Note.txt" />
+    <None Include="Assets\Materials\Textures\Skybox\devilpunch\devilpunch\Note.txt" />
+    <None Include="Assets\Materials\Textures\Skybox\devilpunch\hell\Note.txt" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\iTween\ReadMe!\ReadMe!.txt" />
+    <None Include="Assets\iTweenEditor\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
