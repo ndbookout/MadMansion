@@ -65,9 +65,8 @@ public class NPC : MonoBehaviour
             {
                 if (doorHit.collider.tag == "Door")
                 {
-                    agent.Stop();
-                    //run opendoor method
-                    agent.Resume();
+                    doorHit.collider.gameObject.SendMessage("ChangeDoorState");
+                    StartCoroutine(WaitForDoorToOpen());
                 }
             }
         }
@@ -174,6 +173,15 @@ public class NPC : MonoBehaviour
             currentWingRoomList.Add(room);
         }
 
+    }
+
+    IEnumerator WaitForDoorToOpen()
+    {
+        state = possibleStates.running;
+        agent.Stop();
+        yield return new WaitForSeconds(2f);
+        agent.Resume();
+        state = possibleStates.traveling;
     }
 
     void UpdateRoomList(List<GameObject> targetsInCurrentRoom)
