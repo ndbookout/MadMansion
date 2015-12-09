@@ -47,8 +47,12 @@ namespace Rooms
         void SetDoor(int doorNum)
         {
             Vector3 doorPosition = doorSpaces[doorNum].transform.position;
-            Destroy(doorSpaces[doorNum]);
-            //Instantiate(doorObject, doorPosition, Quaternion.identity);
+            Destroy(doorSpaces[doorNum]);            
+
+            if (doorNum == 1 || doorNum == 3)
+                Instantiate(doorObject, doorPosition, Quaternion.Euler(new Vector3(0, 90, 0)));
+            else
+                Instantiate(doorObject, doorPosition, Quaternion.identity);
         }
 
         //public List<GameObject> GetTargetList()
