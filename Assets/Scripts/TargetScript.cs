@@ -8,6 +8,6 @@ public class TargetScript : MonoBehaviour
 	void Awake()
     {
         nearestDoor = FindObjectOfType<DoorController>();
-        nearestDoor.AddToTargetList(gameObject);
+        //nearestDoor.AddToTargetList(gameObject);
     }
 }
