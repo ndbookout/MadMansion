@@ -57,12 +57,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -80,17 +74,17 @@
     <Compile Include="Assets\3DAssets\NateAssets\HauntedMansion\HauntedMansionScripts\Human.cs" />
     <Compile Include="Assets\3DAssets\NateAssets\HauntedMansion\HauntedMansionScripts\PlayerGhost.cs" />
     <Compile Include="Assets\Scripts\AITest.cs" />
-    <Compile Include="Assets\Scripts\NPCAI.cs" />
     <Compile Include="Assets\Scripts\NateScripts\Room.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomGenerator.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomSpace.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\DoorController.cs" />
-    <Compile Include="Assets\Scripts\ScriptsForDemo\HumanAI.cs" />
+    <Compile Include="Assets\Scripts\ScriptsForDemo\NPC.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\TargetController.cs" />
+    <Compile Include="Assets\Scripts\ScriptsForDemo\UpdatedTargetController.cs" />
+    <Compile Include="Assets\Scripts\ScriptsForDemo\WingList.cs" />
     <Compile Include="Assets\Scripts\TargetScript.cs" />
     <Compile Include="Assets\Scripts\TaskManager.cs" />
     <Compile Include="Assets\Scripts\TrapFloor.cs" />
-    <Compile Include="Assets\Scripts\UpdatedTargetController.cs" />
     <Compile Include="Assets\Scripts\Wilbert_Scripts\Character_Camera_Controller.cs" />
     <Compile Include="Assets\Scripts\Wilbert_Scripts\Character_Controller.cs" />
     <Compile Include="Assets\Scripts\Wilbert_Scripts\wilbert_folder\Wilbert_Scripts\DoorOpeningScript.cs" />
