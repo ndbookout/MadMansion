@@ -11,17 +11,17 @@ public class DoorController : MonoBehaviour
     public float doorSmoothOpening = 2f;
 
     //Door handles targeting inside room
-    public List<GameObject> roomTargets;
+    //public List<GameObject> roomTargets;
 
-    void Awake()
-    {
-        roomTargets = new List<GameObject>();
-    }
+    //void Awake()
+    //{
+    //    roomTargets = new List<GameObject>();
+    //}
 
-    public void AddToTargetList(GameObject newTarget)
-    {
-        roomTargets.Add(newTarget);
-    }
+    //public void AddToTargetList(GameObject newTarget)
+    //{
+    //    roomTargets.Add(newTarget);
+    //}
 
     //Below controls door opening---
     void Start()
@@ -41,7 +41,7 @@ public class DoorController : MonoBehaviour
         {
             Quaternion doorTargetRotationClose = doorCloseAngle;
             transform.localRotation = Quaternion.Slerp(transform.localRotation, doorTargetRotationClose, doorSmoothOpening * Time.deltaTime);
-            TargetController.Targets.Add(gameObject);
+            //TargetController.Targets.Add(gameObject);
         }
     }
 
