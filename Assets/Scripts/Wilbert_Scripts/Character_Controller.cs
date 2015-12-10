@@ -53,10 +53,8 @@ public class Character_Controller : MonoBehaviour {
         jumpInput = 0;
         targetRotation = transform.rotation;// This set the character rotation to the object the script is applied too
 
-        if (GetComponent<Rigidbody>())
-            ghostBody = GetComponent<Rigidbody>();
-        else
-            Debug.LogError("The character needs a rigidbody");
+        ghostBody = GetComponent<Rigidbody>();
+        
     }
 
     void Update()

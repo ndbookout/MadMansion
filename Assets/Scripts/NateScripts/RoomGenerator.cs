@@ -32,7 +32,7 @@ namespace Rooms
         private List<RoomSpace> connectingRooms;
         private List<RoomSpace> finishedRooms;
         private RaycastHit roomHit;
-        private int roomMask = 1 << 10;
+        private int roomMask = 1 << 14;
 
         private bool noRoomSpaces;
         private int roomCount;
@@ -111,22 +111,23 @@ namespace Rooms
 
         private void SearchForRoom(Vector3 rayDirection, Direction connectingDoor)
         {
-            Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, roomMask);
-
-            Debug.Log(roomHit.collider.name);
-
-            if (roomHit.collider != null)
+            if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 100, roomMask))
             {
-                if (roomHit.collider.tag == "RoomSpace")
-                {
-                    RoomSpace nextRoom = roomHit.collider.GetComponent<RoomSpace>();
+                Debug.Log(roomHit.collider.name);
 
-                    if (!finishedRooms.Contains(nextRoom))
+                if (roomHit.collider != null)
+                {
+                    if (roomHit.collider.tag == "RoomSpace")
                     {
-                        connectingRooms.Add(nextRoom);
-                        connectingRooms[connectingRooms.Count - 1].connectingDoor = connectingDoor;
+                        RoomSpace nextRoom = roomHit.collider.GetComponent<RoomSpace>();
+
+                        if (!finishedRooms.Contains(nextRoom))
+                        {
+                            connectingRooms.Add(nextRoom);
+                            connectingRooms[connectingRooms.Count - 1].connectingDoor = connectingDoor;
+                        }
                     }
-                }              
+                }
             }
         }
     }

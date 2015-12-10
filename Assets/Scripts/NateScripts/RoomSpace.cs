@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Rooms
 {
@@ -11,6 +12,13 @@ namespace Rooms
 
         private RoomType room;
         private Direction[] directions;
+
+        private List<GameObject> targets;
+
+        private void Awake()
+        {
+            targets = new List<GameObject>();
+        }
 
         public Direction[] NewRoom(GameObject room)
         {
@@ -90,6 +98,18 @@ namespace Rooms
             }
 
             return true;
+        }
+
+        private void OnTriggerEnter(Collider collide)
+        {
+            if (collide.tag == "Target")
+            {
+                targets.Add(collide.gameObject);
+            }
+            else if (collide.tag == "NPC")
+            {
+                //NPC.SetNewTargetList(targets);
+            }
         }
     }
 }
