@@ -24,6 +24,7 @@ namespace Rooms
     {
         //Eventually want an array of possible rooms
         public GameObject room;
+        public GameObject[] roomPrefabs;
 
         //For determining where rooms should go
         public RoomSpace startRoom;
@@ -32,6 +33,8 @@ namespace Rooms
         private List<RoomSpace> connectingRooms;
         private List<RoomSpace> finishedRooms;
         private RaycastHit roomHit;
+
+        private int wallMask = 1 << 9;
         private int roomMask = 1 << 14;
 
         private bool noRoomSpaces;
@@ -43,7 +46,7 @@ namespace Rooms
             connectingRooms = new List<RoomSpace>();
             finishedRooms = new List<RoomSpace>();
 
-            startRoom.connectingDoor = Direction.North;
+            //startRoom.connectingDoor = Direction.North;
             currentRoom = startRoom;
             noRoomSpaces = false;
             roomCount = 0;
@@ -64,9 +67,25 @@ namespace Rooms
                 }
 
                 currentRoom = connectingRooms[roomCount];
-                CreateNewRoom();
-                roomCount++;       
+
+                if (finishedRooms.Contains(currentRoom))
+                {
+                    roomCount++;
+                    continue;
+                }
+                else
+                {
+                    CreateNewRoom();
+                    roomCount++;
+                }                    
             }           
+        }
+
+        private GameObject RandomRoom()
+        {
+            int rand = Random.Range(0, roomPrefabs.Length);
+
+            return roomPrefabs[rand];
         }
 
         void CreateNewRoom()
@@ -74,7 +93,8 @@ namespace Rooms
             finishedRooms.Add(currentRoom);
 
             connectingDirections.Clear();
-            foreach (Direction dir in currentRoom.NewRoom(room))
+
+            foreach (Direction dir in currentRoom.NewRoom(RandomRoom()))
                 connectingDirections.Add(dir);
 
             FindConnectingRooms();
@@ -111,12 +131,16 @@ namespace Rooms
 
         private void SearchForRoom(Vector3 rayDirection, Direction connectingDoor)
         {
-            if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 100, roomMask))
+            if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, roomMask))
             {
                 Debug.Log(roomHit.collider.name);
 
-                if (roomHit.collider != null)
-                {
+                //if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, wallMask))
+                //{
+                //    yield return null;
+                //}
+                //else
+                
                     if (roomHit.collider.tag == "RoomSpace")
                     {
                         RoomSpace nextRoom = roomHit.collider.GetComponent<RoomSpace>();
@@ -127,7 +151,7 @@ namespace Rooms
                             connectingRooms[connectingRooms.Count - 1].connectingDoor = connectingDoor;
                         }
                     }
-                }
+                
             }
         }
     }

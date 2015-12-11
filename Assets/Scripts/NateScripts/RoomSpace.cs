@@ -13,11 +13,11 @@ namespace Rooms
         private RoomType room;
         private Direction[] directions;
 
-        private List<GameObject> targets;
+        private List<GameObject> roomTargetsList;
 
         private void Awake()
         {
-            targets = new List<GameObject>();
+            roomTargetsList = new List<GameObject>();
         }
 
         public Direction[] NewRoom(GameObject room)
@@ -102,9 +102,9 @@ namespace Rooms
 
         private void OnTriggerEnter(Collider collide)
         {
-            if (collide.tag == "Target")
+            if (collide.tag == "Target" && !roomTargetsList.Contains(collide.gameObject))
             {
-                targets.Add(collide.gameObject);
+                roomTargetsList.Add(collide.gameObject);
             }
             else if (collide.tag == "NPC")
             {
