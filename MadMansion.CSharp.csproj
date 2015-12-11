@@ -79,6 +79,8 @@
     <Compile Include="Assets\Scripts\NateScripts\RoomSpace.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\DoorController.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\NPC.cs" />
+    <Compile Include="Assets\Scripts\ScriptsForDemo\TargetController.cs" />
+    <Compile Include="Assets\Scripts\ScriptsForDemo\UpdatedTargetController.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\WingList.cs" />
     <Compile Include="Assets\Scripts\TargetScript.cs" />
     <Compile Include="Assets\Scripts\TaskManager.cs" />
