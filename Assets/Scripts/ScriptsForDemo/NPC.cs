@@ -5,12 +5,13 @@ using System.Collections.Generic;
 public class NPC : MonoBehaviour
 {
     public enum possibleLocations { Hub, ElseWhere };
-    public enum possibleStates { findingRoom, traveling, scared, investigating, searchingRoom, running};
+    public enum possibleStates { findingRoom, traveling, scared, investigating, searchingRoom, waiting};
     public possibleStates state = new possibleStates();
     public possibleLocations location = new possibleLocations();
 
     private List<GameObject> currentWingRoomList = new List<GameObject>();
     private List<GameObject> currentRoomTargetList = new List<GameObject>();
+    private List<GameObject> HubDoors = new List<GameObject>();
 
     public static float fear = 6;
     public GameObject currentWing;
@@ -22,6 +23,10 @@ public class NPC : MonoBehaviour
     {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         entrance = GameObject.FindGameObjectWithTag("Entrance").transform;
+        foreach (GameObject tar in GameObject.FindGameObjectsWithTag("HubDoor"))
+        {
+            HubDoors.Add(tar);
+        }
     }
 
     
@@ -73,7 +78,7 @@ public class NPC : MonoBehaviour
 
         else if (state == possibleStates.scared)
         {
-            state = possibleStates.running;
+            state = possibleStates.waiting;
             RunScared();
         }
     }
@@ -83,9 +88,9 @@ public class NPC : MonoBehaviour
         FindNPCLocation();
         if (location == possibleLocations.Hub)
         {
-            if (UpdatedTargetController.HubDoors.Count > 0)
+            if (HubDoors.Count > 0)
             {
-                currentWing = UpdatedTargetController.HubDoors[Random.Range(0, UpdatedTargetController.HubDoors.Count)];
+                currentWing = HubDoors[Random.Range(0, HubDoors.Count)];
                 target = currentWing.transform;
                 Travel(target);
             }
@@ -102,7 +107,7 @@ public class NPC : MonoBehaviour
 
         else
         {
-            UpdatedTargetController.HubDoors.Remove(currentWing);
+            HubDoors.Remove(currentWing);
             target = entrance;
             Travel(target);
         }
@@ -177,7 +182,7 @@ public class NPC : MonoBehaviour
 
     IEnumerator WaitForDoorToOpen()
     {
-        state = possibleStates.running;
+        state = possibleStates.waiting;
         agent.Stop();
         yield return new WaitForSeconds(2f);
         agent.Resume();
