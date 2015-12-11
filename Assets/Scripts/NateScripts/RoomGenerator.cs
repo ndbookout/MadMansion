@@ -94,7 +94,7 @@ namespace Rooms
 
             connectingDirections.Clear();
 
-            foreach (Direction dir in currentRoom.NewRoom(RandomRoom()))
+            foreach (Direction dir in currentRoom.NewRoom(RandomRoom())) //use just room for testing
                 connectingDirections.Add(dir);
 
             FindConnectingRooms();
@@ -137,11 +137,12 @@ namespace Rooms
 
                 //if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, wallMask))
                 //{
-                //    yield return null;
+                //    Debug.Log(currentRoom.transform.position);
+                //    return;
                 //}
                 //else
-                
-                    if (roomHit.collider.tag == "RoomSpace")
+
+                if (roomHit.collider.tag == "RoomSpace")
                     {
                         RoomSpace nextRoom = roomHit.collider.GetComponent<RoomSpace>();
 
@@ -151,7 +152,7 @@ namespace Rooms
                             connectingRooms[connectingRooms.Count - 1].connectingDoor = connectingDoor;
                         }
                     }
-                
+                        
             }
         }
     }
