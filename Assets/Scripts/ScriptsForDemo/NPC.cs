@@ -66,13 +66,10 @@ public class NPC : MonoBehaviour
         else if (state == possibleStates.traveling)
         {
             RaycastHit doorHit;
-            if(Physics.Raycast(this.transform.position, target.transform.position, out doorHit, 2f))
+            if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, 2f, 1 << 12))
             {
-                if (doorHit.collider.tag == "Door")
-                {
-                    doorHit.collider.gameObject.GetComponent<DoorController>().ChangeDoorState();
-                    StartCoroutine(WaitForDoorToOpen());
-                }
+                doorHit.collider.transform.GetComponent<DoorController>().ChangeDoorState();
+                //StartCoroutine(WaitForDoorToOpen());
             }
         }
 

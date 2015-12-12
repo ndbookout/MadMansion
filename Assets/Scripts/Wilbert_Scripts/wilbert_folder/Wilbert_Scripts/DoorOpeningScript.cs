@@ -4,21 +4,24 @@ using System.Collections;
 public class DoorOpeningScript : MonoBehaviour
 {
     public float doorInteractDistance = 5f;
-	
+
+    private int doorMask = 1 << 12;
+
 	// Update is called once per frame
 	void Update ()
     {
         if (Input.GetKeyDown(KeyCode.F))
         {
-            Ray doorRay = new Ray(transform.position, transform.forward);
+            Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward, Color.red, 5f);
+
             RaycastHit doorHit;
-            if(Physics.Raycast(doorRay,out doorHit, doorInteractDistance))
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, doorInteractDistance, doorMask))
             {
-                if (doorHit.collider.CompareTag("Door"))
-                {
-                    doorHit.collider.transform.parent.GetComponent<DoorController>().ChangeDoorState();
-                }
+                doorHit.collider.transform.GetComponent<DoorController>().ChangeDoorState();
+                Debug.Log("I SEE YOU DOOR!");
             }
+            else
+                Debug.Log("I can't see the door...");
         }
 	}
 }
