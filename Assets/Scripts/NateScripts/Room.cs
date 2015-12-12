@@ -47,7 +47,7 @@ namespace Rooms
         void SetDoor(int doorNum)
         {
             Vector3 doorPosition = doorSpaces[doorNum].transform.position;
-            Destroy(doorSpaces[doorNum]);            
+            Destroy(doorSpaces[doorNum]);
 
             if (doorNum == 1 || doorNum == 3)
                 Instantiate(doorObject, doorPosition, Quaternion.Euler(new Vector3(0, 90, 0)));
