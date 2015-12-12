@@ -170,13 +170,14 @@ public class NPC : MonoBehaviour
 
     }
 
-    void UpdateWingList(List<GameObject> currentWingsList)
+    public void UpdateWingList(List<GameObject> currentWingsList)
     {
         currentWingRoomList.Clear();
         foreach (GameObject room in currentWingsList)
         {
             currentWingRoomList.Add(room);
         }
+        Debug.Log(currentWingsList.Count);
 
     }
 
@@ -196,5 +197,6 @@ public class NPC : MonoBehaviour
         {
             currentRoomTargetList.Add(tar);
         }
+        Debug.Log(currentRoomTargetList.Count);
     }
 }

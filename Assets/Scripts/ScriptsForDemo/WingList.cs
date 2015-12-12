@@ -14,13 +14,15 @@ public class WingList : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
+        Debug.Log(roomList.Count + "room was added");
         if (collision.gameObject.tag == "Room" && !roomList.Contains(collision.gameObject))
         {
             roomList.Add(collision.gameObject);
         }
         else if (collision.gameObject.tag == "NPC")
         {
-            npc.SendMessage("UpdateWingList", roomList);
+            collision.gameObject.GetComponent<NPC>().UpdateWingList(roomList);
+            //npc.SendMessage("UpdateWingList", roomList);
         }
     }
 }
