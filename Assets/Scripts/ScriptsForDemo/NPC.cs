@@ -168,6 +168,25 @@ public class NPC : MonoBehaviour
         agent.speed = 3.5f;
         state = possibleStates.findingRoom;
 
+    }  
+
+    IEnumerator WaitForDoorToOpen()
+    {
+        state = possibleStates.waiting;
+        agent.Stop();
+        yield return new WaitForSeconds(2f);
+        agent.Resume();
+        state = possibleStates.traveling;
+    }
+
+    public void UpdateRoomList(List<GameObject> targetsInCurrentRoom)
+    {
+        currentRoomTargetList.Clear();
+        foreach (GameObject tar in targetsInCurrentRoom)
+        {
+            currentRoomTargetList.Add(tar);
+        }
+        Debug.Log(currentRoomTargetList.Count);
     }
 
     public void UpdateWingList(List<GameObject> currentWingsList)
@@ -179,24 +198,5 @@ public class NPC : MonoBehaviour
         }
         Debug.Log(currentWingsList.Count);
 
-    }
-
-    IEnumerator WaitForDoorToOpen()
-    {
-        state = possibleStates.waiting;
-        agent.Stop();
-        yield return new WaitForSeconds(2f);
-        agent.Resume();
-        state = possibleStates.traveling;
-    }
-
-    void UpdateRoomList(List<GameObject> targetsInCurrentRoom)
-    {
-        currentRoomTargetList.Clear();
-        foreach (GameObject tar in targetsInCurrentRoom)
-        {
-            currentRoomTargetList.Add(tar);
-        }
-        Debug.Log(currentRoomTargetList.Count);
     }
 }

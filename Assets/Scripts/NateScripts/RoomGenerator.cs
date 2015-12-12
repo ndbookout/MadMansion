@@ -133,7 +133,7 @@ namespace Rooms
         {
             if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, roomMask))
             {
-                Debug.Log(roomHit.collider.name);
+                //Debug.Log(roomHit.collider.name);
 
                 //if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, wallMask))
                 //{
