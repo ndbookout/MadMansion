@@ -29,25 +29,21 @@ public class DoorController : MonoBehaviour
         doorCloseAngle = transform.localRotation;
     }
 
-	// Update is called once per frame
-	void Update ()
-    {
-        if (doorOpen) //open = true
-        {
-            Quaternion doorTargetRotationOpen = Quaternion.Euler(doorCloseAngle.x, doorOpenAngle, doorCloseAngle.z);
-            transform.localRotation *= doorTargetRotationOpen;//Quaternion.Slerp(transform.localRotation, doorTargetRotationOpen, doorSmoothOpening * Time.deltaTime);
-        }
-        else
-        {
-            Quaternion doorTargetRotationClose = doorCloseAngle;
-            transform.localRotation = Quaternion.Slerp(transform.localRotation, doorTargetRotationClose, doorSmoothOpening * Time.deltaTime);
-            //TargetController.Targets.Add(gameObject);
-        }
-    }
-
     public void ChangeDoorState()
     {
         doorOpen = !doorOpen;
         GetComponent<AudioSource>().Play();
+
+        if (doorOpen) //open = true
+        {
+            Quaternion doorTargetRotationOpen = Quaternion.Euler(doorCloseAngle.x, doorOpenAngle, doorCloseAngle.z);
+            transform.localRotation *= doorTargetRotationOpen; //Quaternion.Slerp(transform.localRotation, doorTargetRotationOpen, doorSmoothOpening * Time.deltaTime);
+        }
+        else
+        {
+            Quaternion doorTargetRotationClose = doorCloseAngle;
+            transform.localRotation = doorTargetRotationClose; //Quaternion.Slerp(transform.localRotation, doorTargetRotationClose, doorSmoothOpening * Time.deltaTime);
+            //TargetController.Targets.Add(gameObject);
+        }
     }
 }
