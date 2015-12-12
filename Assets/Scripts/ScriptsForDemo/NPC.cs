@@ -70,7 +70,7 @@ public class NPC : MonoBehaviour
             {
                 if (doorHit.collider.tag == "Door")
                 {
-                    doorHit.collider.gameObject.SendMessage("ChangeDoorState");
+                    doorHit.collider.gameObject.GetComponent<DoorController>().ChangeDoorState();
                     StartCoroutine(WaitForDoorToOpen());
                 }
             }

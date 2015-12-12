@@ -13,7 +13,7 @@ public class WingList : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Rooms in wing: " + roomList.Count);
+        
     }
 
     void OnTriggerEnter(Collider collision)
