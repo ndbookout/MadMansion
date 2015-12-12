@@ -7,6 +7,8 @@ namespace Rooms
 
     public class RoomSpace : MonoBehaviour
     {
+        private GameObject npc;
+
         public Direction[] bannedDirections;
         public Direction connectingDoor;
 
@@ -15,9 +17,14 @@ namespace Rooms
 
         private List<GameObject> roomTargetsList;
 
-        private void Awake()
+        void Awake()
         {
             roomTargetsList = new List<GameObject>();
+        }
+
+        void Start()
+        {
+            npc = GameObject.FindGameObjectWithTag("NPC");
         }
 
         public Direction[] NewRoom(GameObject room)
@@ -108,7 +115,7 @@ namespace Rooms
             }
             else if (collide.tag == "NPC")
             {
-                //NPC.SetNewTargetList(targets);
+                npc.SendMessage("UpdateRoomList", roomTargetsList);
             }
         }
     }

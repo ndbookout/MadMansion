@@ -2,30 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WingList : MonoBehaviour {
-
-    public GameObject player;
-    public string wing;
+public class WingList : MonoBehaviour
+{
+    private GameObject npc;
     private List<GameObject> roomList = new List<GameObject>();
 
-	void OnTriggerEnter(Collider collision)
+    void Start()
+    {
+        npc = GameObject.FindGameObjectWithTag("NPC");
+    }
+
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Room" && !roomList.Contains(collision.gameObject))
         {
             roomList.Add(collision.gameObject);
         }
-        else if (collision.gameObject.tag == "Player")
+        else if (collision.gameObject.tag == "NPC")
         {
-            player.SendMessage("UpdateWingList", roomList);
+            npc.SendMessage("UpdateWingList", roomList);
         }
     }
-	void Start ()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
