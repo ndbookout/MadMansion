@@ -43,7 +43,7 @@ public class NPC : MonoBehaviour
             state = possibleStates.searchingRoom;
             AcquireTarget();
         }
-        else if (state == possibleStates.searchingRoom && (this.transform.position - target.transform.position).magnitude < 1.5f)
+        else if (state == possibleStates.searchingRoom && (this.transform.position - target.transform.position).magnitude < 3f)
         {
             //run search target method here
             currentRoomTargetList.Remove(target.gameObject);
@@ -69,7 +69,7 @@ public class NPC : MonoBehaviour
             if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, 2f, 1 << 12))
             {
                 doorHit.collider.transform.GetComponent<DoorController>().ChangeDoorState();
-                //StartCoroutine(WaitForDoorToOpen());
+                StartCoroutine(WaitForDoorToOpen());
             }
         }
 
@@ -170,9 +170,9 @@ public class NPC : MonoBehaviour
     IEnumerator WaitForDoorToOpen()
     {
         state = possibleStates.waiting;
-        agent.Stop();
-        yield return new WaitForSeconds(2f);
-        agent.Resume();
+        
+        yield return new WaitForSeconds(1f);
+        
         state = possibleStates.traveling;
     }
 
