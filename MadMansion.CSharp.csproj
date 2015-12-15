@@ -73,7 +73,6 @@
     <Compile Include="Assets\3DAssets\HorrorEnvironment_AbandonedManor\Scripts\footsteps.cs" />
     <Compile Include="Assets\3DAssets\NateAssets\HauntedMansion\HauntedMansionScripts\Human.cs" />
     <Compile Include="Assets\3DAssets\NateAssets\HauntedMansion\HauntedMansionScripts\PlayerGhost.cs" />
-    <Compile Include="Assets\Scripts\AITest.cs" />
     <Compile Include="Assets\Scripts\NateScripts\Room.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomGenerator.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomSpace.cs" />
