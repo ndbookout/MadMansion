@@ -29,6 +29,14 @@ public class DoorController : MonoBehaviour
         doorCloseAngle = transform.localRotation;
     }
 
+    void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.tag == "NPC")
+        {
+            ChangeDoorState();
+        }
+    }
+
     public void ChangeDoorState()
     {
         doorOpen = !doorOpen;
