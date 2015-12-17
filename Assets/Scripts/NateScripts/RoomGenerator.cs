@@ -4,6 +4,25 @@ using System.Collections.Generic;
 
 namespace Rooms
 {
+    public struct RoomData
+    {
+        public RoomData(bool init)
+        {
+            initialized = init;
+            roomType = null;
+            roomDirections = null;
+        }
+        public RoomData(bool init, RoomType room, Direction[] dirs)
+        {
+            initialized = init;
+            roomType = room;
+            roomDirections = dirs;
+        }
+
+        public RoomType? roomType;
+        public Direction[] roomDirections;
+        public bool initialized;
+    }
 
     public enum Direction
     {
@@ -34,7 +53,6 @@ namespace Rooms
         private List<RoomSpace> finishedRooms;
         private RaycastHit roomHit;
 
-        private int wallMask = 1 << 9;
         private int roomMask = 1 << 14;
 
         private bool noRoomSpaces;
@@ -133,14 +151,6 @@ namespace Rooms
         {
             if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, roomMask))
             {
-                //Debug.Log(roomHit.collider.name);
-
-                //if (Physics.Raycast(currentRoom.transform.position, rayDirection, out roomHit, 20, wallMask))
-                //{
-                //    Debug.Log(currentRoom.transform.position);
-                //    return;
-                //}
-                //else
 
                 if (roomHit.collider.tag == "RoomSpace")
                     {
@@ -151,8 +161,7 @@ namespace Rooms
                             connectingRooms.Add(nextRoom);
                             connectingRooms[connectingRooms.Count - 1].connectingDoor = connectingDoor;
                         }
-                    }
-                        
+                    }                
             }
         }
     }

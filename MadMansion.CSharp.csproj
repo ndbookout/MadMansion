@@ -76,7 +76,6 @@
     <Compile Include="Assets\Scripts\NateScripts\Room.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomGenerator.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomSpace.cs" />
-    <Compile Include="Assets\Scripts\NateScripts\SetRenderQueue.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\DoorController.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\NPC.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\WingList.cs" />
@@ -110,6 +109,7 @@
     <None Include="Assets\3DAssets\animated_male\man_motiondata.xml" />
     <None Include="Assets\3DAssets\animated_woman\woman_1046_notes.txt" />
     <None Include="Assets\3DAssets\animated_woman\woman_motiondata.xml" />
+    <None Include="Assets\3DAssets\ghoul\shader\ghoulshader.shader" />
     <None Include="Assets\Materials\Textures\Skybox\devilpunch\blood_sport\Note.txt" />
     <None Include="Assets\Materials\Textures\Skybox\devilpunch\devilpunch\Note.txt" />
     <None Include="Assets\Materials\Textures\Skybox\devilpunch\hell\Note.txt" />

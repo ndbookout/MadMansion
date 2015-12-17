@@ -4,19 +4,21 @@ using System.Collections.Generic;
 
 namespace Rooms
 {
-
     public class RoomSpace : MonoBehaviour
     {
+        public RoomData roomData;
+
         public Direction[] bannedDirections;
         public Direction connectingDoor;
 
-        private RoomType room;
+        private RoomType roomType;
         private Direction[] directions;
 
         private List<GameObject> roomTargetsList;
 
         void Awake()
         {
+            roomData = new RoomData(false);
             roomTargetsList = new List<GameObject>();
         }
 
@@ -28,46 +30,53 @@ namespace Rooms
             PickDirections();
 
             while (!CheckDirections())
-                PickDirections(); 
+            {
+                PickRoomType();
+                PickDirections();
+            }         
 
-            Room newRoomData = newRoom.GetComponent<Room>();
-            newRoomData.SetData(directions);
-            return directions;
+            Room newRoomInfo = newRoom.GetComponent<Room>();
+            newRoomInfo.SetData(directions); //this calls Room script
+
+            roomData = new RoomData(true, roomType, directions);
+            return directions; //returns to RoomGenerator
         }
 
         private void PickRoomType()
         {
-            //Room type
-            if (bannedDirections.Length >= 2)
-                room = (RoomType)Random.Range(0, 2);
+            //Room type       
+            if (bannedDirections.Length >= 3)           
+                roomType = RoomType.DeadEnd;         
+            else if (bannedDirections.Length == 2)
+                roomType = (RoomType)Random.Range(0, 2);
             else if (bannedDirections.Length == 1)
-                room = (RoomType)Random.Range(0, 3);
-            else           
-                room = (RoomType)Random.Range(0, 4);             
+                roomType = (RoomType)Random.Range(1, 3);
+            else if (bannedDirections.Length == 0)           
+                roomType = (RoomType)Random.Range(1, 4);             
         }
 
         private void PickDirections()
         {
             //Door directions
-            if (room == RoomType.DeadEnd)
+            if (roomType == RoomType.DeadEnd)
             {
                 directions = new Direction[1];
                 directions[0] = connectingDoor;
             }
-            else if (room == RoomType.TwoDoor)
+            else if (roomType == RoomType.TwoDoor)
             {
                 directions = new Direction[2];
                 directions[0] = connectingDoor;
                 directions[1] = (Direction)Random.Range(0, 4);
             }
-            else if (room == RoomType.ThreeDoor)
+            else if (roomType == RoomType.ThreeDoor)
             {
                 directions = new Direction[3];
                 directions[0] = connectingDoor;
                 directions[1] = (Direction)Random.Range(0, 4);
                 directions[2] = (Direction)Random.Range(0, 4);
             }
-            else if (room == RoomType.FourDoor)
+            else if (roomType == RoomType.FourDoor)
             {
                 directions = new Direction[4];
                 directions[0] = connectingDoor;
@@ -99,6 +108,7 @@ namespace Rooms
 
             return true;
         }
+
 
         private void OnTriggerEnter(Collider collide)
         {
