@@ -46,8 +46,10 @@ public class NPC : MonoBehaviour
         else if (state == possibleStates.searchingRoom && (this.transform.position - target.transform.position).magnitude < 3f)
         {
             //run search target method here
-            currentRoomTargetList.Remove(target.gameObject);
             state = possibleStates.investigating;
+            StartCoroutine(SearchingObjectInRoom());
+            currentRoomTargetList.Remove(target.gameObject);
+            
         }
 
         else if (state == possibleStates.traveling && (this.transform.position - target.transform.position).magnitude < 1.5f)
@@ -196,4 +198,12 @@ public class NPC : MonoBehaviour
         Debug.Log(currentWingsList.Count);
 
     }
+
+    IEnumerator SearchingObjectInRoom()
+    {
+        agent.Stop();
+        yield return new WaitForSeconds(1f);
+        agent.Resume();
+    }
+
 }

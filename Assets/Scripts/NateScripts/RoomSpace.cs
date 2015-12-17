@@ -119,6 +119,7 @@ namespace Rooms
 
             if (collide.tag == "NPC")
             {
+                Debug.Log("This room has " + roomTargetsList.Count + "targets");
                 collide.gameObject.GetComponent<NPC>().UpdateRoomList(roomTargetsList);
                 //npc.SendMessage("UpdateRoomList", roomTargetsList);
             }
