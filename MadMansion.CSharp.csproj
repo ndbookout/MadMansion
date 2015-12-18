@@ -71,9 +71,10 @@
     <Compile Include="Assets\3DAssets\HorrorEnvironment_AbandonedManor\Scripts\animSpeed.cs" />
     <Compile Include="Assets\3DAssets\HorrorEnvironment_AbandonedManor\Scripts\flashLight.cs" />
     <Compile Include="Assets\3DAssets\HorrorEnvironment_AbandonedManor\Scripts\footsteps.cs" />
-    <Compile Include="Assets\3DAssets\NateAssets\HauntedMansion\HauntedMansionScripts\Human.cs" />
-    <Compile Include="Assets\3DAssets\NateAssets\HauntedMansion\HauntedMansionScripts\PlayerGhost.cs" />
     <Compile Include="Assets\Scripts\Ghoul.cs" />
+    <Compile Include="Assets\Scripts\GhoulSpawner.cs" />
+    <Compile Include="Assets\Scripts\HauntedMansionScripts\Human.cs" />
+    <Compile Include="Assets\Scripts\HauntedMansionScripts\PlayerGhost.cs" />
     <Compile Include="Assets\Scripts\NateScripts\Room.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomGenerator.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomSpace.cs" />
