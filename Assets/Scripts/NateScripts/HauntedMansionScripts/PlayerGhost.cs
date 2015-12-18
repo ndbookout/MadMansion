@@ -8,31 +8,41 @@ public class PlayerGhost : MonoBehaviour
     private RaycastHit ghostHit;
 
     public float InteractDistance = 5f;
-    private int interactMask = 1 << 17;
     private int doorMask = 1 << 12;
     private int humanMask = 1 << 15;
     private int enemyMask = 1 << 16;
+    private int actionMask;
 
     private Animator ghostAnim;
 
     void Start()
     {
         ghostAnim = GetComponent<Animator>();
+
+        actionMask = doorMask | humanMask | enemyMask;
     }
 
     // Update is called once per frame
-    void Update ()
+    void FixedUpdate ()
     {
         ghostRay = new Ray(transform.position + new Vector3(0, 1, 0), transform.forward);
+        Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward, Color.red, 5f);
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Physics.Raycast(ghostRay, InteractDistance, actionMask))
         {
-            Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward, Color.red, 5f);
-            
-            OpenDoor();
-            ScareHuman();
-            AttackEnemy();
+            UI.instance.ToggleActionIcon(true);
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                OpenDoor();
+                ScareHuman();
+                AttackEnemy();
+            }
         }
+        else
+        {
+            UI.instance.ToggleActionIcon(false);
+        }
+            
     }
 
     void OpenDoor()
