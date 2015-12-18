@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class NPC : MonoBehaviour
 {
     public enum possibleLocations { Hub, ElseWhere };
-    public enum possibleStates { findingRoom, traveling, scared, investigating, searchingRoom, waiting};
+    public enum possibleStates { findingRoom, traveling, scared, investigating, searchingRoom, waiting, running};
     public possibleStates state = new possibleStates();
     public possibleLocations location = new possibleLocations();
 
@@ -13,7 +13,7 @@ public class NPC : MonoBehaviour
     private List<GameObject> currentRoomTargetList = new List<GameObject>();
     private List<GameObject> HubDoors = new List<GameObject>();
 
-    public static float fear = 6;
+    public static float fear = 0;
     public GameObject currentWing;
     NavMeshAgent agent;
     public Transform entrance;
@@ -27,6 +27,7 @@ public class NPC : MonoBehaviour
         {
             HubDoors.Add(tar);
         }
+        StartCoroutine(FearCooldownControl());
     }
 
     
@@ -77,7 +78,7 @@ public class NPC : MonoBehaviour
 
         else if (state == possibleStates.scared)
         {
-            state = possibleStates.waiting;
+            state = possibleStates.running;
             RunScared();
         }
     }
@@ -206,4 +207,23 @@ public class NPC : MonoBehaviour
         agent.Resume();
     }
 
+    IEnumerator FearCooldownControl()
+        {
+            if(fear > 0)
+            {
+                fear--;
+            }
+            yield return new WaitForSeconds(30f);
+        StartCoroutine(FearCooldownControl());
+        }
+
+    public void GetScared(float fearIncrease)
+    {
+        fear += fearIncrease;
+        if (fear > 10)
+        {
+            fear = 10;
+        }
+        state = possibleStates.scared;
+    }
 }
