@@ -43,7 +43,7 @@ public class PlayerGhost : MonoBehaviour
     {
         if (Physics.Raycast(ghostRay, out ghostHit, InteractDistance, humanMask))
         {
-            //ghostHit.collider.transform.GetComponent<NPC>().GetScared(2);
+            ghostHit.collider.transform.GetComponent<NPC>().GetScared(2);
             Debug.Log("RUN YOU LITTLE CREEP, RUN!");
         }
         else
