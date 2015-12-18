@@ -75,8 +75,8 @@
     <Compile Include="Assets\Scripts\GhoulSpawner.cs" />
     <Compile Include="Assets\Scripts\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\NateScripts\GeneratorController.cs" />
-    <Compile Include="Assets\Scripts\NateScripts\HauntedMansionScripts\Human.cs" />
     <Compile Include="Assets\Scripts\NateScripts\HauntedMansionScripts\PlayerGhost.cs" />
+    <Compile Include="Assets\Scripts\NateScripts\HauntedMansionScripts\UI.cs" />
     <Compile Include="Assets\Scripts\NateScripts\Room.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomGenerator.cs" />
     <Compile Include="Assets\Scripts\NateScripts\RoomSpace.cs" />

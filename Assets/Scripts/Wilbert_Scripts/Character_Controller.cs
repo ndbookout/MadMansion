@@ -40,21 +40,23 @@ public class Character_Controller : MonoBehaviour {
     Vector3 terrainNormal = Vector3.zero;
     private Quaternion targetRotation; //Holds rotation to turn too
     private Rigidbody ghostBody; //This will hold the ghost postion from the rigidbody
-    private float fowardInput; 
+    private float forwardInput; 
     private float turnInput;
     private float jumpInput;
+
+    private Animator ghostAnim;
 
 
     //Methods that we are using in our script
     void Start()
     {
-        fowardInput = 0; //When we start our game the character will be at 0 movement
+        forwardInput = 0; //When we start our game the character will be at 0 movement
         turnInput = 0; //When we start our game the character will have 0 rotation applied
         jumpInput = 0;
         targetRotation = transform.rotation;// This set the character rotation to the object the script is applied too
 
         ghostBody = GetComponent<Rigidbody>();
-        
+        ghostAnim = GetComponent<Animator>();
     }
 
     void Update()
@@ -69,23 +71,30 @@ public class Character_Controller : MonoBehaviour {
         Jump();
         Turn();
 
+        Animate();
+
         ghostBody.velocity = transform.TransformDirection(ghostVelocity);
         //ghostBody.velocity = ghostVelocity;
     } 
 
     void GetInput()
     {
-        fowardInput = Input.GetAxis(inputSetting.FOWARD_AXIS);//interpolated will get any value from -1 to 1
+        forwardInput = Input.GetAxis(inputSetting.FOWARD_AXIS);//interpolated will get any value from -1 to 1
         turnInput = Input.GetAxis(inputSetting.TURN_AXIS);//interpolated will get any value from -1 to 1
         jumpInput = Input.GetAxisRaw(inputSetting.JUMP_AXIS);//non-interpolate will only get values -1, 0, or 1 we only care that the value is greather than 0 because that will let us know that the player press the space bar
     }
 
+    void Animate()
+    {
+        ghostAnim.SetFloat("Forward", forwardInput);
+    }
+
     void Run()
     {
-        if (Mathf.Abs(fowardInput) > inputSetting.inputDelay) //This is checking that our foward movement is greater than 0.1
+        if (Mathf.Abs(forwardInput) > inputSetting.inputDelay) //This is checking that our foward movement is greater than 0.1
         {
             //move
-            ghostVelocity.z = moveSetting.fowardVelocity * fowardInput;//So to move foward we only care about the .z vector of the character 
+            ghostVelocity.z = moveSetting.fowardVelocity * forwardInput;//So to move foward we only care about the .z vector of the character 
         }
         else
             //zero velocity
