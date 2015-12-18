@@ -22,7 +22,7 @@ public class Human : MonoBehaviour
 
     void Start()
     {
-        playerGhost = PlayerGhost.player.transform;
+        //playerGhost = PlayerGhost.player.transform;
         humanRigid = GetComponent<Rigidbody>();
     }
 

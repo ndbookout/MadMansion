@@ -48,11 +48,11 @@ namespace Rooms
             if (bannedDirections.Length >= 3)           
                 roomType = RoomType.DeadEnd;         
             else if (bannedDirections.Length == 2)
-                roomType = (RoomType)Random.Range(0, 2);
+                roomType = (RoomType)Random.Range(1, 2);
             else if (bannedDirections.Length == 1)
                 roomType = (RoomType)Random.Range(1, 3);
             else if (bannedDirections.Length == 0)           
-                roomType = (RoomType)Random.Range(1, 4);             
+                roomType = (RoomType)Random.Range(2, 4);             
         }
 
         private void PickDirections()
