@@ -73,6 +73,7 @@
     <Compile Include="Assets\3DAssets\HorrorEnvironment_AbandonedManor\Scripts\footsteps.cs" />
     <Compile Include="Assets\Scripts\Ghoul.cs" />
     <Compile Include="Assets\Scripts\GhoulSpawner.cs" />
+    <Compile Include="Assets\Scripts\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\NateScripts\GeneratorController.cs" />
     <Compile Include="Assets\Scripts\NateScripts\HauntedMansionScripts\Human.cs" />
     <Compile Include="Assets\Scripts\NateScripts\HauntedMansionScripts\PlayerGhost.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Assets\Scripts\ScriptsForDemo\DoorController.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\NPC.cs" />
     <Compile Include="Assets\Scripts\ScriptsForDemo\WingList.cs" />
+    <Compile Include="Assets\Scripts\StartButtonController.cs" />
     <Compile Include="Assets\Scripts\TargetScript.cs" />
     <Compile Include="Assets\Scripts\TaskManager.cs" />
     <Compile Include="Assets\Scripts\TrapFloor.cs" />
