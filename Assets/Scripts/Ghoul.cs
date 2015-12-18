@@ -64,11 +64,13 @@ public class Ghoul : MonoBehaviour {
     void AcquireTarget()
     {
         ghoulTarget = allTargets[Random.Range(0, allTargets.Count)].transform;
+        Wander(ghoulTarget);
     }
 
-    void Travel(Transform tar)
+    void Wander(Transform tar)
     {
         ghoulAgent.SetDestination(tar.position);
+        this.GetComponent<Animator>().SetBool("isMoving", true);
     }
     void ChaseNpc(GameObject npc)
     {

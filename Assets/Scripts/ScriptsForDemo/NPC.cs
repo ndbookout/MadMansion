@@ -35,6 +35,7 @@ public class NPC : MonoBehaviour
     {
         if (state == possibleStates.findingRoom)
         {
+            this.gameObject.GetComponent<Animator>().SetBool("isMoving", true);
             state = possibleStates.traveling;
             FindNewRoom();
         }
@@ -46,11 +47,12 @@ public class NPC : MonoBehaviour
         }
         else if (state == possibleStates.searchingRoom && (this.transform.position - target.transform.position).magnitude < 3f)
         {
-            //run search target method here
+            //run search target method here, if tagged bone, destroy object and add to an inventory
             state = possibleStates.investigating;
+            this.gameObject.GetComponent<Animator>().SetBool("isSearching", true);
             StartCoroutine(SearchingObjectInRoom());
             currentRoomTargetList.Remove(target.gameObject);
-            
+
         }
 
         else if (state == possibleStates.traveling && (this.transform.position - target.transform.position).magnitude < 1.5f)
@@ -69,11 +71,17 @@ public class NPC : MonoBehaviour
         else if (state == possibleStates.traveling)
         {
             RaycastHit doorHit;
-            if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, 2f, 1 << 12))
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, 2f, 1 << 12))
             {
                 doorHit.collider.transform.GetComponent<DoorController>().ChangeDoorState();
                 StartCoroutine(WaitForDoorToOpen());
             }
+        }
+
+        else if (state == possibleStates.scared && (this.transform.position - entrance.position).magnitude < 3)
+        {
+            //lose state
+            Debug.Log("Your NPC got too scared and ran");
         }
 
         else if (state == possibleStates.scared)
@@ -166,6 +174,7 @@ public class NPC : MonoBehaviour
         agent.speed = 10;
         yield return new WaitForSeconds(fear);
         agent.speed = 3.5f;
+        this.gameObject.GetComponent<Animator>().SetBool("isScared", false);
         state = possibleStates.findingRoom;
 
     }  
@@ -204,6 +213,7 @@ public class NPC : MonoBehaviour
     {
         agent.Stop();
         yield return new WaitForSeconds(1f);
+        this.gameObject.GetComponent<Animator>().SetBool("isSearching", false);
         agent.Resume();
     }
 
@@ -219,6 +229,7 @@ public class NPC : MonoBehaviour
 
     public void GetScared(float fearIncrease)
     {
+        this.GetComponent<Animator>().SetBool("isScared", true);
         fear += fearIncrease;
         if (fear > 10)
         {
