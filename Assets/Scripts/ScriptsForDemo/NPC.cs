@@ -212,7 +212,7 @@ public class NPC : MonoBehaviour
     IEnumerator SearchingObjectInRoom()
     {
         agent.Stop();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.5f);
         this.gameObject.GetComponent<Animator>().SetBool("isSearching", false);
         agent.Resume();
     }

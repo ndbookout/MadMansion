@@ -58,6 +58,13 @@ public class Ghoul : MonoBehaviour {
         else if (ghoulState == ghoulStates.ChasingNPC)
         {
             ChaseNpc(npc);
+            RaycastHit npcHit;
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out npcHit, 5f, 1 << 15))
+            {
+                ghoulState = ghoulStates.ChasingNPC;
+                npc = npcHit.collider.gameObject;
+                npc.gameObject.GetComponent<NPC>().GetScared(5f);
+            }
         }
 	}
 
