@@ -13,6 +13,7 @@ public class NPC : MonoBehaviour
     private List<GameObject> currentRoomTargetList = new List<GameObject>();
     private List<GameObject> HubDoors = new List<GameObject>();
 
+    
     public static float fear = 0;
     public GameObject currentWing;
     NavMeshAgent agent;
@@ -212,7 +213,18 @@ public class NPC : MonoBehaviour
     IEnumerator SearchingObjectInRoom()
     {
         agent.Stop();
+        
         yield return new WaitForSeconds(1.5f);
+        if (target.gameObject.tag == "Bone")
+        {
+            UI.instance.FindBone();
+            Destroy(target.gameObject);
+        }
+        else if (target.gameObject.tag == "Skull")
+        {
+            UI.instance.FindSkull();
+            Destroy(target.gameObject);
+        }
         this.gameObject.GetComponent<Animator>().SetBool("isSearching", false);
         agent.Resume();
     }
