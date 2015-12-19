@@ -14,6 +14,7 @@ public class PlayerGhost : MonoBehaviour
     private int actionMask;
 
     private Animator ghostAnim;
+    private bool actionTaken;
 
     void Start()
     {
@@ -31,8 +32,9 @@ public class PlayerGhost : MonoBehaviour
         if (Physics.Raycast(ghostRay, InteractDistance, actionMask))
         {
             UI.instance.ToggleActionIcon(true);
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKeyDown(KeyCode.X) && actionTaken == false)
             {
+                actionTaken = true;
                 OpenDoor();
                 ScareHuman();
                 AttackEnemy();
@@ -77,13 +79,14 @@ public class PlayerGhost : MonoBehaviour
     }
 
     IEnumerator AnimateActions(string action, Collider other)
-    {
+    {      
         if (action == "Scare")
         {
             ghostAnim.SetBool("Scare", true);
             yield return new WaitForSeconds(0.5f);
             ghostAnim.SetBool("Scare", false);
             other.transform.GetComponent<NPC>().GetScared(2);
+            Debug.Log("BOO!");
         }
         else if (action == "Attack")
         {
@@ -98,5 +101,7 @@ public class PlayerGhost : MonoBehaviour
             ghostAnim.SetBool("Attack", false);
             other.transform.GetComponent<DoorController>().ChangeDoorState();
         }
+
+        actionTaken = false;
     }
 }

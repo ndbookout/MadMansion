@@ -11,6 +11,7 @@ public class UI : MonoBehaviour
     public Image skullIcon;
     public Image femur1;
     public Image femur2;
+    public Image fearBar;
 
     void Start()
     {
@@ -19,6 +20,11 @@ public class UI : MonoBehaviour
         skullIcon.gameObject.SetActive(false);
         femur1.gameObject.SetActive(false);
         femur2.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        SetFear();
     }
 
     public void ToggleActionIcon(bool value)
@@ -40,5 +46,11 @@ public class UI : MonoBehaviour
             if (femur2.gameObject.activeSelf == false)
                 femur2.gameObject.SetActive(true);
         }
+    }
+
+    public void SetFear()
+    {
+        fearBar.fillAmount = NPC.fear/10;
+        Debug.Log("Fear: " + NPC.fear);
     }
 }
