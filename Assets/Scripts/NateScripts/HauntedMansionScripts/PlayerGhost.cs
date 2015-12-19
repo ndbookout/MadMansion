@@ -16,15 +16,18 @@ public class PlayerGhost : MonoBehaviour
     private Animator ghostAnim;
     private bool actionTaken;
 
+    public GameObject fireBlast;
+    private bool fired;
+
     void Start()
     {
         ghostAnim = GetComponent<Animator>();
 
-        actionMask = doorMask | humanMask | enemyMask;
+        actionMask = doorMask | humanMask;
     }
 
     // Update is called once per frame
-    void FixedUpdate ()
+    void Update ()
     {
         ghostRay = new Ray(transform.position + new Vector3(0, 1, 0), transform.forward);
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward, Color.red, 5f);
@@ -36,15 +39,24 @@ public class PlayerGhost : MonoBehaviour
             {
                 actionTaken = true;
                 OpenDoor();
-                ScareHuman();
-                AttackEnemy();
+                ScareHuman();             
             }
         }
         else
         {
             UI.instance.ToggleActionIcon(false);
         }
-            
+
+        if (Input.GetKeyDown(KeyCode.F) && fired == false)
+        {
+            fired = true;
+            new Task(AnimateActions(("Attack"), ghostHit.collider));
+        }
+
+        if (Physics.Raycast(ghostRay, out ghostHit, InteractDistance, enemyMask))
+            UI.instance.ToggleAttackIcon(true);
+        else
+            UI.instance.ToggleAttackIcon(false);           
     }
 
     void OpenDoor()
@@ -70,14 +82,6 @@ public class PlayerGhost : MonoBehaviour
             Debug.Log("No one to scare :(");
     }
 
-    void AttackEnemy()
-    {
-        if (Physics.Raycast(ghostRay, out ghostHit, InteractDistance, enemyMask))
-        {
-            new Task(AnimateActions(("Attack"), ghostHit.collider));
-        }
-    }
-
     IEnumerator AnimateActions(string action, Collider other)
     {      
         if (action == "Scare")
@@ -89,10 +93,11 @@ public class PlayerGhost : MonoBehaviour
             Debug.Log("BOO!");
         }
         else if (action == "Attack")
-        {
+        {       
             ghostAnim.SetBool("Attack", true);
             yield return new WaitForSeconds(0.5f);
             ghostAnim.SetBool("Attack", false);
+            new Task(FireBlast());
         }
         else if (action == "Door")
         {
@@ -103,5 +108,15 @@ public class PlayerGhost : MonoBehaviour
         }
 
         actionTaken = false;
+    }
+
+    IEnumerator FireBlast()
+    {
+        GameObject fire = Instantiate(fireBlast, 
+            transform.position + new Vector3(0, 1, 1), Quaternion.identity) as GameObject;
+        fire.transform.rotation = transform.rotation;
+        yield return new WaitForSeconds(2);
+        fired = false;
+        Destroy(fire);     
     }
 }

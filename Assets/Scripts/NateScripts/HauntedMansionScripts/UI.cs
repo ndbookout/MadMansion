@@ -8,6 +8,7 @@ public class UI : MonoBehaviour
 
     private Ray ghostRay;
     public Image actionIcon;
+    public Image attackIcon;
     public Image skullIcon;
     public Image femur1;
     public Image femur2;
@@ -30,6 +31,11 @@ public class UI : MonoBehaviour
     public void ToggleActionIcon(bool value)
     {
         actionIcon.gameObject.SetActive(value);
+    }
+
+    public void ToggleAttackIcon(bool value)
+    {
+        attackIcon.gameObject.SetActive(value);
     }
 
     public void FindSkull()
