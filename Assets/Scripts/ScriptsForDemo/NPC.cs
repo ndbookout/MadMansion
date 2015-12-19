@@ -236,14 +236,14 @@ public class NPC : MonoBehaviour
     }
 
     IEnumerator FearCooldownControl()
+    {
+        if (fear > 0)
         {
-            if(fear > 0)
-            {
-                fear--;
-            }
-            yield return new WaitForSeconds(30f);
-        StartCoroutine(FearCooldownControl());
+            fear--;
         }
+        yield return new WaitForSeconds(10f);
+        StartCoroutine(FearCooldownControl());
+    }
 
     public void GetScared(float fearIncrease)
     {
