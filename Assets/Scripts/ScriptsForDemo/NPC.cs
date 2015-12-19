@@ -27,10 +27,7 @@ public class NPC : MonoBehaviour
     {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         entrance = GameObject.FindGameObjectWithTag("Entrance").transform;
-        foreach (GameObject tar in GameObject.FindGameObjectsWithTag("HubDoor"))
-        {
-            HubDoors.Add(tar);
-        }
+        SetHubDoorList();
         StartCoroutine(FearCooldownControl());
 
         humanAudio = GetComponent<AudioSource>();
@@ -86,7 +83,7 @@ public class NPC : MonoBehaviour
 
         else if (state == possibleStates.scared && (this.transform.position - entrance.position).magnitude < 3)
         {
-            //lose state
+            //load lose state
             Debug.Log("Your NPC got too scared and ran");
         }
 
@@ -97,6 +94,13 @@ public class NPC : MonoBehaviour
         }
     }
 
+    void SetHubDoorList()
+    {
+        foreach (GameObject tar in GameObject.FindGameObjectsWithTag("HubDoor"))
+        {
+            HubDoors.Add(tar);
+        }
+    }
     void FindNewRoom()
     {
         FindNPCLocation();
@@ -110,7 +114,7 @@ public class NPC : MonoBehaviour
             }
             else
             {
-                //load lose state
+                SetHubDoorList();
             }
         }
         else if (currentWingRoomList.Count > 0)
