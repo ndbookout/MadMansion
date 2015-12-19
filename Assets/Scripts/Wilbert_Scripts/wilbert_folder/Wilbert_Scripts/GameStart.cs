@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI; // This is added because we are using the Unity UI in our code to get all the fucntions
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameStart : MonoBehaviour {
 
@@ -24,7 +25,7 @@ public class GameStart : MonoBehaviour {
 
     public void StartLevel() //this will load the first stage when play is hit
     {
-        Application.LoadLevel(1);
+        SceneManager.LoadScene(1);
     }
 
     public void ExitGame() //This will exit the game and pop the exit menu when hit

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class NPC : MonoBehaviour
 {
@@ -58,15 +59,17 @@ public class NPC : MonoBehaviour
 
         }
 
-        else if (state == possibleStates.traveling && (this.transform.position - target.transform.position).magnitude < 1.5f)
+        else if (state == possibleStates.traveling && (this.transform.position - target.transform.position).magnitude < 2f)
         {
             if (location == possibleLocations.ElseWhere)
             {
+                LookAround();
                 currentWingRoomList.Remove(target.gameObject);
                 state = possibleStates.investigating;
             }
             else
             {
+                LookAround();
                 state = possibleStates.findingRoom;
             }
         }
@@ -83,7 +86,7 @@ public class NPC : MonoBehaviour
 
         else if (state == possibleStates.scared && (this.transform.position - entrance.position).magnitude < 3)
         {
-            //load lose state
+            SceneManager.LoadScene(2);
             Debug.Log("Your NPC got too scared and ran");
         }
 
@@ -271,5 +274,15 @@ public class NPC : MonoBehaviour
             fear = 10;
         }
         state = possibleStates.scared;
+    }
+
+    IEnumerator LookAround()
+    {
+        agent.Stop();
+        this.GetComponent<Animator>().SetBool("isMoving", false);
+        yield return new WaitForSeconds(1.5f);
+        this.GetComponent<Animator>().SetBool("isMoving", true);
+        agent.Resume();
+
     }
 }
