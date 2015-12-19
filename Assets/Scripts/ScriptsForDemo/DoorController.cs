@@ -10,6 +10,10 @@ public class DoorController : MonoBehaviour
     private Quaternion doorCloseAngle;
     public float doorSmoothOpening = 2f;
 
+    public AudioClip openDoor;
+    public AudioClip closeDoor;
+    private AudioSource doorAudio;
+
     //Door handles targeting inside room
     //public List<GameObject> roomTargets;
 
@@ -27,10 +31,24 @@ public class DoorController : MonoBehaviour
     void Start()
     {
         doorCloseAngle = transform.localRotation;
+        doorAudio = GetComponent<AudioSource>();
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.tag == "NPC")
+        {
+            ChangeDoorState();
+        }
     }
 
     public void ChangeDoorState()
     {
+        if (!doorOpen)
+            doorAudio.PlayOneShot(openDoor);
+        else
+            doorAudio.PlayOneShot(closeDoor);
+
         doorOpen = !doorOpen;
         GetComponent<AudioSource>().Play();
 

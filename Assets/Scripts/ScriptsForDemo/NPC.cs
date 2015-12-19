@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class NPC : MonoBehaviour
 {
     public enum possibleLocations { Hub, ElseWhere };
-    public enum possibleStates { findingRoom, traveling, scared, investigating, searchingRoom, waiting};
+    public enum possibleStates { findingRoom, traveling, scared, investigating, searchingRoom, waiting, running};
     public possibleStates state = new possibleStates();
     public possibleLocations location = new possibleLocations();
 
@@ -13,7 +14,11 @@ public class NPC : MonoBehaviour
     private List<GameObject> currentRoomTargetList = new List<GameObject>();
     private List<GameObject> HubDoors = new List<GameObject>();
 
-    public static float fear = 6;
+    public AudioClip scream1;
+    public AudioClip scream2;
+    private AudioSource humanAudio;
+    
+    public static float fear = 0;
     public GameObject currentWing;
     NavMeshAgent agent;
     public Transform entrance;
@@ -23,10 +28,10 @@ public class NPC : MonoBehaviour
     {
         agent = this.gameObject.GetComponent<NavMeshAgent>();
         entrance = GameObject.FindGameObjectWithTag("Entrance").transform;
-        foreach (GameObject tar in GameObject.FindGameObjectsWithTag("HubDoor"))
-        {
-            HubDoors.Add(tar);
-        }
+        SetHubDoorList();
+        StartCoroutine(FearCooldownControl());
+
+        humanAudio = GetComponent<AudioSource>();
     }
 
     
@@ -34,6 +39,7 @@ public class NPC : MonoBehaviour
     {
         if (state == possibleStates.findingRoom)
         {
+            this.gameObject.GetComponent<Animator>().SetBool("isMoving", true);
             state = possibleStates.traveling;
             FindNewRoom();
         }
@@ -45,20 +51,25 @@ public class NPC : MonoBehaviour
         }
         else if (state == possibleStates.searchingRoom && (this.transform.position - target.transform.position).magnitude < 3f)
         {
-            //run search target method here
-            currentRoomTargetList.Remove(target.gameObject);
+            //run search target method here, if tagged bone, destroy object and add to an inventory
             state = possibleStates.investigating;
+            this.gameObject.GetComponent<Animator>().SetBool("isSearching", true);
+            StartCoroutine(SearchingObjectInRoom());
+            currentRoomTargetList.Remove(target.gameObject);
+
         }
 
-        else if (state == possibleStates.traveling && (this.transform.position - target.transform.position).magnitude < 1.5f)
+        else if (state == possibleStates.traveling && (this.transform.position - target.transform.position).magnitude < 2f)
         {
             if (location == possibleLocations.ElseWhere)
             {
+                
                 currentWingRoomList.Remove(target.gameObject);
                 state = possibleStates.investigating;
             }
             else
             {
+                
                 state = possibleStates.findingRoom;
             }
         }
@@ -66,20 +77,33 @@ public class NPC : MonoBehaviour
         else if (state == possibleStates.traveling)
         {
             RaycastHit doorHit;
-            if(Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, 2f, 1 << 12))
+            if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out doorHit, 2f, 1 << 12))
             {
                 doorHit.collider.transform.GetComponent<DoorController>().ChangeDoorState();
                 StartCoroutine(WaitForDoorToOpen());
             }
         }
 
+        else if (state == possibleStates.scared && (this.transform.position - entrance.position).magnitude < 3)
+        {
+            SceneManager.LoadScene(2);
+            Debug.Log("Your NPC got too scared and ran");
+        }
+
         else if (state == possibleStates.scared)
         {
-            state = possibleStates.waiting;
+            state = possibleStates.running;
             RunScared();
         }
     }
 
+    void SetHubDoorList()
+    {
+        foreach (GameObject tar in GameObject.FindGameObjectsWithTag("HubDoor"))
+        {
+            HubDoors.Add(tar);
+        }
+    }
     void FindNewRoom()
     {
         FindNPCLocation();
@@ -93,7 +117,7 @@ public class NPC : MonoBehaviour
             }
             else
             {
-                //load lose state
+                SetHubDoorList();
             }
         }
         else if (currentWingRoomList.Count > 0)
@@ -163,6 +187,7 @@ public class NPC : MonoBehaviour
         agent.speed = 10;
         yield return new WaitForSeconds(fear);
         agent.speed = 3.5f;
+        this.gameObject.GetComponent<Animator>().SetBool("isScared", false);
         state = possibleStates.findingRoom;
 
     }  
@@ -196,4 +221,60 @@ public class NPC : MonoBehaviour
         Debug.Log(currentWingsList.Count);
 
     }
+
+    IEnumerator SearchingObjectInRoom()
+    {
+        agent.Stop();
+        
+        yield return new WaitForSeconds(1.5f);
+        if (target.gameObject.tag == "Bone")
+        {
+            Debug.Log("You found a bone");
+            UI.instance.FindBone();
+            currentRoomTargetList.Remove(target.gameObject);
+            Destroy(target.gameObject);
+            AcquireTarget();
+        }
+        else if (target.gameObject.tag == "Skull")
+        {
+            Debug.Log("You found the skull");
+            UI.instance.FindSkull();
+            currentRoomTargetList.Remove(target.gameObject);
+            Destroy(target.gameObject);
+            AcquireTarget();
+        }
+        this.gameObject.GetComponent<Animator>().SetBool("isSearching", false);
+        agent.Resume();
+    }
+
+    IEnumerator FearCooldownControl()
+    {
+        if (fear > 0)
+        {
+            fear--;
+        }
+        yield return new WaitForSeconds(10f);
+        StartCoroutine(FearCooldownControl());
+    }
+
+    public void GetScared(float fearIncrease)
+    {
+        if (humanAudio.isPlaying != true)
+        {
+            if (fear < 8)
+                humanAudio.PlayOneShot(scream1);
+            else if (fear >= 8)
+                humanAudio.PlayOneShot(scream2);
+        }
+
+        this.GetComponent<Animator>().SetBool("isScared", true);
+        fear += fearIncrease;
+        if (fear > 10)
+        {
+            fear = 10;
+        }
+        state = possibleStates.scared;
+    }
+
+    
 }

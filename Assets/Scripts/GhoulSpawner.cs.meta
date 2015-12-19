@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: f5422e86f08e1ea44bfb4cbba8a44eb3
+timeCreated: 1450401726
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - ghoulPrefab: {fileID: 134630, guid: 455bb1ca08aaeab4690f971bd5c4b027, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
