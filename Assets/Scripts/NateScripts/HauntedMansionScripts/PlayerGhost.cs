@@ -13,6 +13,8 @@ public class PlayerGhost : MonoBehaviour
     private int enemyMask = 1 << 16;
     private int actionMask;
 
+    public AudioClip scare;
+    private AudioSource ghostAudio;
     private Animator ghostAnim;
     private bool actionTaken;
 
@@ -22,16 +24,17 @@ public class PlayerGhost : MonoBehaviour
     void Start()
     {
         ghostAnim = GetComponent<Animator>();
-
+        ghostAudio = GetComponent<AudioSource>();
         actionMask = doorMask | humanMask;
     }
 
-    // Update is called once per frame
+    // Update handles raycasting
     void Update ()
     {
         ghostRay = new Ray(transform.position + new Vector3(0, 1, 0), transform.forward);
         Debug.DrawRay(transform.position + new Vector3(0, 1, 0), transform.forward, Color.red, 5f);
 
+        //Actions
         if (Physics.Raycast(ghostRay, InteractDistance, actionMask))
         {
             UI.instance.ToggleActionIcon(true);
@@ -47,12 +50,12 @@ public class PlayerGhost : MonoBehaviour
             UI.instance.ToggleActionIcon(false);
         }
 
+        //Attack
         if (Input.GetKeyDown(KeyCode.F) && fired == false)
         {
             fired = true;
             new Task(AnimateActions(("Attack"), ghostHit.collider));
         }
-
         if (Physics.Raycast(ghostRay, out ghostHit, InteractDistance, enemyMask))
             UI.instance.ToggleAttackIcon(true);
         else
@@ -86,11 +89,12 @@ public class PlayerGhost : MonoBehaviour
     {      
         if (action == "Scare")
         {
+            ghostAudio.PlayOneShot(scare);
             ghostAnim.SetBool("Scare", true);
             yield return new WaitForSeconds(0.5f);
             ghostAnim.SetBool("Scare", false);
             other.transform.GetComponent<NPC>().GetScared(2);
-            Debug.Log("BOO!");
+            //Debug.Log("BOO!");
         }
         else if (action == "Attack")
         {       
@@ -113,7 +117,7 @@ public class PlayerGhost : MonoBehaviour
     IEnumerator FireBlast()
     {
         GameObject fire = Instantiate(fireBlast, 
-            transform.position + new Vector3(0, 1, 1), Quaternion.identity) as GameObject;
+            transform.position + new Vector3(0, 1, transform.forward.z), Quaternion.identity) as GameObject;
         fire.transform.rotation = transform.rotation;
         yield return new WaitForSeconds(2);
         fired = false;

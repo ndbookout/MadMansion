@@ -13,6 +13,9 @@ public class NPC : MonoBehaviour
     private List<GameObject> currentRoomTargetList = new List<GameObject>();
     private List<GameObject> HubDoors = new List<GameObject>();
 
+    public AudioClip scream1;
+    public AudioClip scream2;
+    private AudioSource humanAudio;
     
     public static float fear = 0;
     public GameObject currentWing;
@@ -29,6 +32,8 @@ public class NPC : MonoBehaviour
             HubDoors.Add(tar);
         }
         StartCoroutine(FearCooldownControl());
+
+        humanAudio = GetComponent<AudioSource>();
     }
 
     
@@ -247,6 +252,14 @@ public class NPC : MonoBehaviour
 
     public void GetScared(float fearIncrease)
     {
+        if (humanAudio.isPlaying != true)
+        {
+            if (fear < 8)
+                humanAudio.PlayOneShot(scream1);
+            else if (fear >= 8)
+                humanAudio.PlayOneShot(scream2);
+        }
+
         this.GetComponent<Animator>().SetBool("isScared", true);
         fear += fearIncrease;
         if (fear > 10)
