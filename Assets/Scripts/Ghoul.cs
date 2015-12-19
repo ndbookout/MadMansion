@@ -45,7 +45,7 @@ public class Ghoul : MonoBehaviour {
             }
         }
 
-        else if (ghoulState == ghoulStates.ChasingNPC && (this.transform.position - npc.transform.position).magnitude > 15)
+        else if (ghoulState == ghoulStates.ChasingNPC && (this.transform.position - npc.transform.position).magnitude > 12)
         {
             ghoulState = ghoulStates.GettingNewTarget;
         }
@@ -53,11 +53,6 @@ public class Ghoul : MonoBehaviour {
         else if (ghoulState == ghoulStates.ChasingNPC && (this.transform.position - npc.transform.position).magnitude < 2)
         {
             //lose state
-            Debug.Log("Your NPC got eaten");
-        }
-        else if (ghoulState == ghoulStates.ChasingNPC)
-        {
-            ChaseNpc(npc);
             RaycastHit npcHit;
             if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out npcHit, 5f, 1 << 15))
             {
@@ -65,6 +60,12 @@ public class Ghoul : MonoBehaviour {
                 npc = npcHit.collider.gameObject;
                 npc.gameObject.GetComponent<NPC>().GetScared(5f);
             }
+            Debug.Log("Your NPC got eaten");
+        }
+        else if (ghoulState == ghoulStates.ChasingNPC)
+        {
+            ChaseNpc(npc);
+            
         }
 	}
 

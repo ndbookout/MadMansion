@@ -120,6 +120,10 @@ namespace Rooms
             {
                 roomTargetsList.Add(collide.gameObject);
             }
+            else if (collide.tag == "Skull" && !roomTargetsList.Contains(collide.gameObject))
+            {
+                roomTargetsList.Add(collide.gameObject);
+            }
 
             if (collide.tag == "NPC")
             {

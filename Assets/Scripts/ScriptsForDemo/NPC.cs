@@ -217,13 +217,19 @@ public class NPC : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         if (target.gameObject.tag == "Bone")
         {
+            Debug.Log("You found a bone");
             UI.instance.FindBone();
+            currentRoomTargetList.Remove(target.gameObject);
             Destroy(target.gameObject);
+            AcquireTarget();
         }
         else if (target.gameObject.tag == "Skull")
         {
+            Debug.Log("You found the skull");
             UI.instance.FindSkull();
+            currentRoomTargetList.Remove(target.gameObject);
             Destroy(target.gameObject);
+            AcquireTarget();
         }
         this.gameObject.GetComponent<Animator>().SetBool("isSearching", false);
         agent.Resume();
