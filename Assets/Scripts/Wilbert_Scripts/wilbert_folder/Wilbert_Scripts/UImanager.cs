@@ -57,4 +57,9 @@ public class UImanager : MonoBehaviour {
             isPaused = true;
         }
     }
+
+    public void reStartLevel() //this will load the first stage when play is hit
+    {
+        Application.LoadLevel(1);
+    }
 }
