@@ -12,6 +12,9 @@ public class UI : MonoBehaviour
     public Image femur1;
     public Image femur2;
     public Image fearBar;
+    bool skullFound = false;
+    bool firstBoneFound = false;
+    bool secondBoneFound = false;
 
     void Start()
     {
@@ -25,6 +28,10 @@ public class UI : MonoBehaviour
     void Update()
     {
         SetFear();
+        if (skullFound && firstBoneFound && secondBoneFound)
+        {
+            //load win state
+        }
     }
 
     public void ToggleActionIcon(bool value)
@@ -35,16 +42,23 @@ public class UI : MonoBehaviour
     public void FindSkull()
     {
         skullIcon.gameObject.SetActive(true);
+        skullFound = true;
     }
 
     public void FindBone()
     {
         if (femur1.gameObject.activeSelf == false)
+        {
             femur1.gameObject.SetActive(true);
+            firstBoneFound = true;
+        }
         else
         {
             if (femur2.gameObject.activeSelf == false)
+            {
                 femur2.gameObject.SetActive(true);
+                secondBoneFound = true;
+            }
         }
     }
 

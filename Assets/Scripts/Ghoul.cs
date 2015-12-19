@@ -52,7 +52,7 @@ public class Ghoul : MonoBehaviour {
 
         else if (ghoulState == ghoulStates.ChasingNPC && (this.transform.position - npc.transform.position).magnitude < 2)
         {
-            //lose state
+            
             RaycastHit npcHit;
             if (Physics.Raycast(transform.position + new Vector3(0, 1, 0), transform.forward, out npcHit, 5f, 1 << 15))
             {

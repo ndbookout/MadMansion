@@ -19,8 +19,8 @@ public class GhoulSpawner : MonoBehaviour {
 	}
     IEnumerator SpawnGhoulsMoreFrequentlyOverTime()
     {
-        yield return new WaitForSeconds(20f);
-        if (ghoulSpawnTimer > 8)
+        yield return new WaitForSeconds(30f);
+        if (ghoulSpawnTimer > 15)
         {
             ghoulSpawnTimer--;
             StartCoroutine(SpawnGhoulsMoreFrequentlyOverTime());
@@ -28,8 +28,9 @@ public class GhoulSpawner : MonoBehaviour {
     }
     IEnumerator SpawnGhoul()
     {
-        Instantiate(ghoulPrefab, this.transform.position, this.transform.rotation);
+        
         yield return new WaitForSeconds(ghoulSpawnTimer);
+        Instantiate(ghoulPrefab, this.transform.position, this.transform.rotation);
         StartCoroutine(SpawnGhoul());
     }
 }
