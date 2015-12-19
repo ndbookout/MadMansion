@@ -32,7 +32,7 @@ public class UI : MonoBehaviour
         SetFear();
         if (skullFound && firstBoneFound && secondBoneFound)
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(0);
         }
     }
 
