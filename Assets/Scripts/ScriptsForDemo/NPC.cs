@@ -63,13 +63,13 @@ public class NPC : MonoBehaviour
         {
             if (location == possibleLocations.ElseWhere)
             {
-                LookAround();
+                
                 currentWingRoomList.Remove(target.gameObject);
                 state = possibleStates.investigating;
             }
             else
             {
-                LookAround();
+                
                 state = possibleStates.findingRoom;
             }
         }
@@ -276,13 +276,5 @@ public class NPC : MonoBehaviour
         state = possibleStates.scared;
     }
 
-    IEnumerator LookAround()
-    {
-        agent.Stop();
-        this.GetComponent<Animator>().SetBool("isMoving", false);
-        yield return new WaitForSeconds(1.5f);
-        this.GetComponent<Animator>().SetBool("isMoving", true);
-        agent.Resume();
-
-    }
+    
 }
