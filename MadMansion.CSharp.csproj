@@ -73,6 +73,7 @@
     <Compile Include="Assets\3DAssets\HorrorEnvironment_AbandonedManor\Scripts\footsteps.cs" />
     <Compile Include="Assets\Scripts\Ghoul.cs" />
     <Compile Include="Assets\Scripts\GhoulSpawner.cs" />
+    <Compile Include="Assets\Scripts\KillGhoul.cs" />
     <Compile Include="Assets\Scripts\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\NateScripts\GeneratorController.cs" />
     <Compile Include="Assets\Scripts\NateScripts\HauntedMansionScripts\PlayerGhost.cs" />
