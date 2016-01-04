@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -31,7 +32,7 @@ public class UI : MonoBehaviour
         SetFear();
         if (skullFound && firstBoneFound && secondBoneFound)
         {
-            //load win state
+            SceneManager.LoadScene(0);
         }
     }
 
